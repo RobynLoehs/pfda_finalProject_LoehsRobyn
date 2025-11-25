@@ -83,10 +83,14 @@ while running:
 
 # make farm setting move across the screen
 
+
 # left mouse click spawns farm animals or make rain bursts
+
 
 # space bar toggles storm
 
+
 # r resets area
+
 
 pygame.quit()
