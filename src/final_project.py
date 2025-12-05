@@ -45,6 +45,37 @@ farm_art = [
     [GRASS]*20,
 ]
 
+# Clouds
+clouds = [
+    {
+        "x": 120,
+        "y": 70,
+        "parts": [
+            (0, 0, 180, 80),
+            (50, -30, 140, 90),
+            (80, 10, 130, 70)
+        ],
+    },
+    {
+        "x": 500,
+        "y": 70,
+        "parts": [
+            (0, 0, 140, 80),
+            (-50, 30, 200, 70),
+            (20, 40, 160, 60)
+        ],
+    },
+    {
+        "x": 300,
+        "y": 30,
+        "parts": [
+            (0, 0, 170, 60),
+            (50, -20, 140, 70),
+            (80, 10, 150, 50)
+        ],
+    }
+]
+
 # Add barn rows manually
 for r in range(11, 20):
     row = []
@@ -100,20 +131,27 @@ def draw_clouds(surface):
     else:
         color = CLOUDS
     
-    # cloud 1
-    pygame.draw.ellipse(surface, color, (120, 70, 180, 80))
-    pygame.draw.ellipse(surface, color, (170, 40, 140, 90))
-    pygame.draw.ellipse(surface, color, (200, 80, 130, 70))
+    for cloud in clouds:
+        base_x = cloud["x"]
+        base_y = cloud["y"]
+        for dx, dy, w, h in cloud["parts"]:
+            pygame.draw.ellipse(
+                surface,
+                color,
+                (base_x + dx, base_y + dy, w, h)
+            )
 
-    # cloud 2
-    pygame.draw.ellipse(surface, color, (500, 70, 140, 80))
-    pygame.draw.ellipse(surface, color, (450, 100, 200, 70))
-    pygame.draw.ellipse(surface, color, (520, 110, 160, 60))
+def update_clouds():
+    for cloud in clouds:
+        cloud["x"] += 3
 
-    # cloud 3
-    pygame.draw.ellipse(surface, color, (300, 30, 170, 60))
-    pygame.draw.ellipse(surface, color, (350, 10, 140, 70))
-    pygame.draw.ellipse(surface, color, (380, 40, 150, 50))
+        min_dx = min(dx for (dx, dy, w, h) in cloud["parts"])
+        max_dx_w = max(dx + w for (dx, dy, w, h) in cloud["parts"])
+
+        left_edge = cloud["x"] + min_dx
+
+        if left_edge > WIDTH:
+            cloud["x"] = -max_dx_w
 
 def spawn_raindrops(num_drops=10):
     # Create random raindrops froma  random x coordinate at the top of the screen
@@ -200,6 +238,7 @@ while running:
             
     screen.fill((0,0,0))
     draw_farm_popup(screen)
+    update_clouds()
     draw_clouds(screen)
     draw_pigs(screen)
 
