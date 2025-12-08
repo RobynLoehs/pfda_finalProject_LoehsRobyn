@@ -4,6 +4,9 @@ Scrolling Screensaver
 ## Repository
 https://github.com/RobynLoehs/pfda_finalProject_LoehsRobyn
 
+## Video Link
+https://www.youtube.com/watch?v=2sP3WZzW8Jo
+
 ## Description
 When the program runs, a pop-up screen will appear and act as a screen saver. It will have imagery of a farm scene that scrolls from left to right.
 
